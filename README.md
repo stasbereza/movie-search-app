@@ -1,46 +1,103 @@
-# Getting Started with Create React App
+# Movie Mate App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-Redux application for searching movies using the TV Maze Movie API. This app allows users to search for movies, view detailed information about them, and remove movies from the list.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Features](#features)
+- [Instalation](#instalation)
+- [Usage](#usage)
+- [Folder Structure](#folder-structure)
+- [API](#api)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Search for movies using TVMaze API
+- Select a movie from the dropdown menu
+- View information about selected movie
+- View detailed information about each movie on a separate page
+- Remove movies from dropdown menu and detals page
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Installation
 
-### `npm test`
+1. Navigate to the project directory:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+cd movie-mate-app
+```
 
-### `npm run build`
+2. Install dependencies:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Start the development server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `npm run eject`
+The application will open in your default web browser at [http://localhost:3000](http://localhost:3000).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Usage
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Search for a movie:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Enter a movie title in the search bar
+- A list of movies matching the search term will be displayed within the dropdown below the searchbox
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+2. View movie details:
 
-## Learn More
+- Click on a movie from the search results to view details about it
+- Click on a movie name from to view more details about it on separate Details page
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Manage movies:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Click the "Delete" icon button within movie's dropdown item to remove it from the list
+- Click the "Delete" icon button on a movie's detail page to remove movie from the dropdowm list
+
+## Folder Structure
+
+```bash
+movie-mate-app/
+├── public/
+│   ├── index.html
+│   └── ...
+├── src/
+│   ├── app/
+│   │   ├── hooks.ts
+│   │   ├── store.ts
+│   ├── components/
+│   │   ├── movieItem.tsx
+│   │   ├── searchableMovieList.tsx
+│   ├── features/
+│   │   ├── movieDetails/
+│   │   │   ├── moviesDetails.tsx
+│   │   │   └── moviesDetailsSlice.ts
+│   │   ├── movies/
+│   │   │   ├── moviesSlice.ts
+│   │   ├── search/
+│   │   │   ├── searchBar.ts
+│   │   │   └── searchSlice.ts
+│   │   └── ...
+│   ├── App.tsx
+│   ├── index.tsx
+│   └── ...
+├── .gitignore
+├── package.json
+├── README.md
+└── ...
+```
+
+## API
+
+This application uses the [TV Maze API](https://www.tvmaze.com/api) to search for movies and retrieve detailed information.
+
+Example API Request
+
+To search for movies by title:
+
+```http
+GET https://api.tvmaze.com/search/shows?q=<search_term>
+```
