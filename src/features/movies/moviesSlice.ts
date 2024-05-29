@@ -23,14 +23,9 @@ export const moviesSlice = createSlice({
     fetchMoviesFail: (state, action: PayloadAction<AxiosError | unknown>) => {
       state.error = action.payload;
     },
-    removeMovie: (state, action: PayloadAction<string>) => {
-      state.moviesList = state.moviesList.filter(
-        (movie) => String(movie.show.id) !== action.payload
-      );
-    },
   },
 });
 
-export const { fetchMoviesSuccess, fetchMoviesFail, removeMovie } = moviesSlice.actions;
+export const { fetchMoviesSuccess, fetchMoviesFail } = moviesSlice.actions;
 
 export default moviesSlice.reducer;

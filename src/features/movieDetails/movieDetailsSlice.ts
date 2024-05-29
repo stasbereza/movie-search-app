@@ -1,25 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { TVMazeMovie } from '../../types';
+// import { TVMazeMovie } from '../../types';
 
 export interface MovieDetailsState {
-  selectedMovie: TVMazeMovie | null;
+  selectedMovieIds: string[];
 }
 
 const initialState: MovieDetailsState = {
-  selectedMovie: null,
+  selectedMovieIds: [],
 };
 
 export const movieDetailsSlice = createSlice({
   name: 'movieDetails',
   initialState,
   reducers: {
-    setSelectedMovie: (state, action: PayloadAction<TVMazeMovie | null>) => {
-      state.selectedMovie = action.payload;
+    setSelectedMovies: (state, action: PayloadAction<string[]>) => {
+      state.selectedMovieIds = action.payload;
+    },
+    removeMovie: (state, action: PayloadAction<string>) => {
+      state.selectedMovieIds = state.selectedMovieIds.filter(
+        (movieId) => movieId !== action.payload
+      );
     },
   },
 });
 
-export const { setSelectedMovie } = movieDetailsSlice.actions;
+export const { setSelectedMovies, removeMovie } = movieDetailsSlice.actions;
 
 export default movieDetailsSlice.reducer;
