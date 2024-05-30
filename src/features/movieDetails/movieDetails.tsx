@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import parse, { HTMLReactParserOptions, Element, DOMNode, domToReact } from 'html-react-parser';
 import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { removeMovie } from '../movies/moviesSlice';
+import { removeMovie } from './movieDetailsSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 const options: HTMLReactParserOptions = {
@@ -27,14 +27,17 @@ const Img = styled('img')({
 });
 
 export const MovieDetails = () => {
-  const movie = useAppSelector((state) => state.movieDetails.selectedMovie);
-  const dispatch = useAppDispatch();
+  const { id } = useParams();
+  const movie = useAppSelector((state) =>
+    state.movies.moviesList.find(({ show }) => String(show.id) === id)
+  );
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const { id, name, image, rating, summary } = movie?.show || {};
+  const { name, image, rating, summary } = movie?.show || {};
 
   const handleRemoveMovie = (): void => {
-    dispatch(removeMovie(String(id)));
+    dispatch(removeMovie(id as string));
     navigate('/');
   };
 
