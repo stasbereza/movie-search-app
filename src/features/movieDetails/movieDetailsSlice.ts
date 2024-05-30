@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-// import { TVMazeMovie } from '../../types';
 
 export interface MovieDetailsState {
   selectedMovieIds: string[];

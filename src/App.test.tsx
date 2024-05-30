@@ -1,14 +1,16 @@
 import { App } from './App';
-import { store as appStore } from './app/store';
-import { fetchMoviesSuccess } from './features/movies/moviesSlice';
+import { store } from './app/store';
+import { fetchMovies } from './features/movies/moviesSlice';
 import { renderWithProviders } from './utils/test-utils';
-import { fetchedMovies } from './mock/mockMovies';
 
-test('should use movies state to render correct movies list', () => {
-  const store = appStore;
-  store.dispatch(fetchMoviesSuccess(fetchedMovies));
-
+test('should use initial movies state while query is an empty string', () => {
   renderWithProviders(<App />, { store });
 
-  expect(store.getState().movies).toEqual({ moviesList: fetchedMovies, error: null });
+  store.dispatch(fetchMovies(''));
+
+  expect(store.getState().movies).toEqual({
+    moviesList: [],
+    status: 'loading',
+    error: null,
+  });
 });

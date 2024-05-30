@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { setSearchText } from './searchSlice';
+import { fetchMovies } from '../movies/moviesSlice';
 import { setSelectedMovies } from '../movieDetails/movieDetailsSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { TVMazeMovie } from '../../types';
@@ -40,7 +41,10 @@ export const SearchableDropdown = () => {
 
   const handleSearchTextChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>): void => {
-      dispatch(setSearchText(event.target.value));
+      const { value } = event.target;
+
+      dispatch(setSearchText(value));
+      dispatch(fetchMovies(value));
     },
     [dispatch]
   );

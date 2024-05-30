@@ -14,16 +14,16 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
 
 export function renderWithProviders(
   ui: React.ReactElement,
-  extendedRenderOptions: ExtendedRenderOptions
+  extendedRenderOptions?: ExtendedRenderOptions
 ) {
-  window.history.pushState({}, 'Test page', extendedRenderOptions?.route);
+  window.history.pushState({}, '/', extendedRenderOptions?.route);
 
   const {
     preloadedState = {},
     store = appStore,
     route = '/',
     ...renderOptions
-  }: ExtendedRenderOptions = extendedRenderOptions;
+  }: ExtendedRenderOptions = extendedRenderOptions || {};
 
   const Wrapper = ({ children }: PropsWithChildren) => (
     <Provider store={store}>

@@ -10,7 +10,7 @@ export const SearchableMovieList = () => {
   const selectedMovieIds = useAppSelector((state) => state.movieDetails.selectedMovieIds);
   const dispatch = useAppDispatch();
 
-  const renderSelectedMovies = useMemo(() => {
+  const selectedMovies = useMemo(() => {
     const handleRemoveItem = (id: string): void => {
       dispatch(removeMovie(id));
     };
@@ -28,7 +28,7 @@ export const SearchableMovieList = () => {
     <>
       <SearchableDropdown />
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {renderSelectedMovies}
+        {selectedMovies}
       </Grid>
     </>
   );
