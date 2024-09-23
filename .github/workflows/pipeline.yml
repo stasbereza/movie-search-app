@@ -1,0 +1,70 @@
+name: Static website Azure Storage CI/CD
+
+env:
+  storageName: "myfirstazurestorage83"
+  resourceGroupName: "Resources"
+  cdnProfileName: "mystaticwebsitecdn"
+  cdnEndpointName: "myendpointname"
+  artifactName: "build-results-artifact"
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+
+      - run: |
+          cd ${{ github.workspace }}/movie-search-app
+          npm install
+          npm run build
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: ${{ env.artifactName }}
+          path: ${{ github.workspace }}/movie-search-app/build
+  
+  deploy:
+    needs: build
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@master
+      with:
+        name: ${{ env.artifactName }}
+        path: ${{ github.workspace }}/movie-search-app/build
+
+    - uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Upload to blob storage
+      uses: azure/CLI@v2
+      with:
+        azcliversion: 2.64.0
+        inlineScript: |
+            az storage blob upload-batch --account-name ${{ env.storageName }} -s $GITHUB_WORKSPACE/movie-search-app/build -d '$web'
+    - name: Purge CDN endpoint
+      uses: azure/CLI@v2
+      with:
+        azcliversion: 2.64.0
+        inlineScript: |
+          az cdn endpoint purge --content-paths  "/*" --profile-name ${{ env.cdnProfileName }} --name ${{ env.cdnEndpointName }}  --resource-group ${{ env.resourceGroupName }}
+
+    - name: Azure logout
+      uses: azure/CLI@v2
+      with:
+        azcliversion: 2.64.0
+        inlineScript: |
+            az logout        
+

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -11,8 +10,7 @@ interface MovieItemProps extends Pick<TVMazeMovie['show'], 'id' | 'name' | 'imag
   onRemoveMovie?: (id: string) => void;
 }
 
-export const MovieItem = ({ id, name, image, rating, onRemoveMovie }: MovieItemProps) => {
-  return (
+export const MovieItem = ({ id, name, image, rating, onRemoveMovie }: MovieItemProps) => (
     <Card sx={{ maxWidth: 300 }}>
       <CardMedia component="img" image={image?.medium} alt={name} />
       <CardContent>
@@ -30,4 +28,3 @@ export const MovieItem = ({ id, name, image, rating, onRemoveMovie }: MovieItemP
       </CardActions>
     </Card>
   );
-};
