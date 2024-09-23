@@ -1,19 +1,16 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import { Button, CardActions } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { TVMazeMovie } from '../types';
 
-interface MovieItemProps {
-  item: TVMazeMovie;
+interface MovieItemProps extends Pick<TVMazeMovie['show'], 'id' | 'name' | 'image' | 'rating'> {
+  onRemoveMovie?: (id: string) => void;
 }
 
-export const MovieItem = ({ item }: MovieItemProps) => {
-  const { id, name, image, rating } = item?.show || {};
-
-  return (
+export const MovieItem = ({ id, name, image, rating, onRemoveMovie }: MovieItemProps) => (
     <Card sx={{ maxWidth: 300 }}>
       <CardMedia component="img" image={image?.medium} alt={name} />
       <CardContent>
@@ -24,6 +21,10 @@ export const MovieItem = ({ item }: MovieItemProps) => {
           Rating: {rating.average || 'Not Applicable'}
         </Typography>
       </CardContent>
+      <CardActions>
+        <Button size="small" color="primary" onClick={() => onRemoveMovie?.(String(id))}>
+          Delete
+        </Button>
+      </CardActions>
     </Card>
   );
-};

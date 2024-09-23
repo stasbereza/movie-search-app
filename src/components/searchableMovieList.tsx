@@ -1,15 +1,35 @@
-import React from 'react';
-import { SearchBar } from '../features/search/searchBar';
+import { useMemo } from 'react';
+import Grid from '@mui/material/Grid';
 import { MovieItem } from './movieItem';
-import { useAppSelector } from '../app/hooks';
+import { MemoizedSearchableDropdown } from '../features/search/SearchableDropdown';
+import { removeMovie } from '../features/movieDetails/movieDetailsSlice';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 export const SearchableMovieList = () => {
-  const selectedMovie = useAppSelector((state) => state.movieDetails.selectedMovie);
+  const selectedMovies = useAppSelector((state) => state.movieDetails.selectedMovies);
+  const dispatch = useAppDispatch();
+
+  const movies = useMemo(() => {
+    const handleRemoveItem = (id: string): void => {
+      dispatch(removeMovie(id));
+    };
+
+    return (
+      selectedMovies
+        .map(({ show }) => (
+          <Grid item xs={2} sm={4} md={4} key={show.id}>
+            <MovieItem {...show} onRemoveMovie={handleRemoveItem} />
+          </Grid>
+        ))
+    );
+  }, [selectedMovies, dispatch]);
 
   return (
     <>
-      <SearchBar />
-      {selectedMovie && <MovieItem item={selectedMovie} />}
+      <MemoizedSearchableDropdown />
+      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        {movies}
+      </Grid>
     </>
   );
 };
