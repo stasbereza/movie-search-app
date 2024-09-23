@@ -24,14 +24,14 @@ jobs:
           node-version: "18.x"
 
       - run: |
-          cd ${{ github.workspace }}/movie-search-app
+          cd ${{ github.workspace }}
           npm install
           npm run build
 
       - uses: actions/upload-artifact@master
         with:
           name: ${{ env.artifactName }}
-          path: ${{ github.workspace }}/movie-search-app/build
+          path: ${{ github.workspace }}/build
   
   deploy:
     needs: build
