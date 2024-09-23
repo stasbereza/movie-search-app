@@ -27,12 +27,12 @@ const Img = styled('img')({
 });
 
 export const MovieDetails = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
   const movie = useAppSelector((state) =>
     state.movies.moviesList.find(({ show }) => String(show.id) === id)
   );
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const { name, image, rating, summary } = movie?.show || {};
 
@@ -53,7 +53,7 @@ export const MovieDetails = () => {
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 300 }}>
-            <Img alt="complex" src={image?.medium} />
+            <Img src={image?.medium} alt="movie poster" />
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>

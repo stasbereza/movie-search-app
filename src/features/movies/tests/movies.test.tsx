@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from '../../../utils/test-utils';
 import { App } from '../../../App';
@@ -26,5 +25,5 @@ test('should fetch a movie after clicking the select element and searching withi
 
   // Wait for the movies to be loaded and displayed
   // after some time, the movie should be received
-  // expect(await screen.findByText(/test show test/i)).toBeInTheDocument();
+  // expect(await screen.findByText(/test/i)).toBeInTheDocument();
 });
